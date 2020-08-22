@@ -1,47 +1,35 @@
 ---
 authors:
 - admin
-bio: My research interests include drugs and crime
+bio: Statistics student at Cal Poly.
 education:
   courses:
-  - course: PhD in Gang Weed
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
-email: ""
+  - course: BS in Statistics
+    institution: Cal Poly
+    year: 2023
+email: "wmedwid@calpoly.edu"
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Board Games
+- Political Theory
+- Artificial Intelligence 
 organizations:
-- name: Stanford University
+- name: Cal Poly
   url: ""
-role: Professor of Artificial Intelligence
+role: Student
 social:
 - icon: envelope
   icon_pack: fas
   link: '#contact'
-- icon: twitter
-  icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
-- icon: google-scholar
-  icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/genghiskhandybar
 superuser: true
-title: Nelson Bighetti
+title: William Medwid
 user_groups:
 - Researchers
 - Visitors
 ---
 
-William Medwid is not a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He doesn't lead the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Transitioning from self/online learned data science enthusiast to formally certified. I've had the initiative to self study topics up through deep learning and implement them myself. Often confused why people say they don't like working with spreadsheets.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+My favorite coding languages are Python and R, but happy to work in SAS, C#, C++, Java, and Javascript as well.
