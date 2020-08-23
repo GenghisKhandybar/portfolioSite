@@ -37,3 +37,15 @@ pie(
 ```
 
 Testing ability to edit this.
+
+Testing Links:
+
+[Another post](../seehere)
+
+[Other content](../../book)
+
+[Home Page](../../#about)
+
+![Pictureeee!](../../img/hero-academic.png)
+
+
