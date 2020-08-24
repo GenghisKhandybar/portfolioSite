@@ -21,8 +21,6 @@ image:
 projects: []
 ---
 
-![](braveRatsTin.png)
-
 ## First turn analysis based on human data
 
 Welcome to an analysis of Brave Rats statistics, with real data collected from real players. [Brave Rats](https://boardgamegeek.com/boardgame/112373/braverats) is a micro card game (also known as R) designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you're not familiar with the game, I recommend this 5-minute [video tutorial](https://www.youtube.com/watch?v=YDywt8eAGiU) to best be able to understand.
