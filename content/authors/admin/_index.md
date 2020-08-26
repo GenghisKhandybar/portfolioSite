@@ -23,6 +23,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/genghiskhandybar
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/in/william-medwid-8a5814178/
 superuser: true
 title: William Medwid
 user_groups:
@@ -30,6 +33,6 @@ user_groups:
 - Visitors
 ---
 
-Transitioning from self/online learned data science enthusiast to formally certified. I've had the initiative to self study topics up through deep learning and implement them myself. Often confused why people say they don't like working with spreadsheets.
+I'm a statistics major at Cal Poly, seeking to minor in Data Science. Also interested in board games, and to a lesser extent, video games, from playing to designing and analyzing them.
 
-My favorite coding languages are Python and R, but happy to work in SAS, C#, C++, Java, and Javascript as well.
+My favorite coding languages are R and Python, but happy to work in SAS, C#, C++, Java, and Javascript as well.
