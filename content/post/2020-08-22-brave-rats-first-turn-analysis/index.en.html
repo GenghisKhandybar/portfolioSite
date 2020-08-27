@@ -27,13 +27,53 @@ projects: []
 <h2>First turn analysis based on human data</h2>
 <p>Welcome to an analysis of Brave Rats statistics, with real data collected from real players. <a href="https://boardgamegeek.com/boardgame/112373/braverats">Brave Rats</a> is a micro card game (also known as R) designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you’re not familiar with the game, I recommend this 5-minute <a href="https://www.youtube.com/watch?v=YDywt8eAGiU">video tutorial</a> to best be able to understand.</p>
 <p>As of writing this commentary, I have recorded 35 games, mostly but not always with myself as one of the players. After removing one tied game, this gives a total of 68 opening moves to analyze. The first turn, as in many games, is very important yet very abstract and hard to make concrete statements about as it is so far removed from the end state of the game. This analysis will attempt to provide some data-driven guidance to this stage of play.</p>
+<pre class="r"><code># Importing the data and mirroring it
+
+columnNames = c(&quot;Game #&quot;,&quot;Player 1&quot;,&quot;Player 2&quot;,&quot;P2 wins?&quot;,&quot;P1 Card 1&quot;,&quot;P2 Card 1&quot;,&quot;P1 Card 2&quot;,&quot;P2 Card 2&quot;,&quot;P1 Card 3&quot;,&quot;P2 Card 3&quot;,&quot;P1 Card 4&quot;,&quot;P2 Card 4&quot;,&quot;P1 Card 5&quot;,&quot;P2 Card 5&quot;,&quot;P1 Card 6&quot;,&quot;P2 Card 6&quot;,&quot;P1 Card 7&quot;,&quot;P2 Card 7&quot;,&quot;P1 Card 8&quot;,&quot;P2 Card 8&quot;) %&gt;% 
+  str_replace_all(&quot;[ #?]&quot;, &quot;&quot;)
+ratData &lt;- read_csv(&quot;Brave Rats Data - Record.csv&quot;, 
+                    skip_empty_rows = TRUE, 
+                    col_names = columnNames, 
+                    skip=1)%&gt;% 
+  select(P2wins, P1Card1, P2Card1)
+
+notFlipped &lt;- ratData %&gt;% 
+  mutate(P1Wins = abs(P2wins-1), P1Card = ratData$P1Card1, P2Card = ratData$P2Card1) %&gt;% select(P1Wins, P1Card, P2Card)
+
+flipped &lt;- ratData %&gt;% 
+  mutate(P1Wins = P2wins, P1Card = ratData$P2Card1, P2Card = ratData$P1Card1) %&gt;% select(P1Wins, P1Card, P2Card)
+
+fullSet &lt;- rbind(notFlipped, flipped) %&gt;% filter(P1Wins != 0.5) %&gt;% mutate(Outcome = ifelse(
+  P1Wins==1, &quot;Win&quot;, &quot;Loss&quot;
+))</code></pre>
 <p>First, and most basically, it’s important to know what cards people actually play to start. This information even on its own may be able to greatly inform starting decisions.</p>
-<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the preferred starting cards. Spy(2) being the most common and Wizard(5) being somewhat popular are the main notes here.</p>
+<pre class="r"><code>fullSet %&gt;% 
+  ggplot(aes(x=P1Card %&gt;% as_factor())) +
+  geom_histogram(stat=&quot;count&quot;) +
+  xlab(&quot;Card&quot;) +
+  ggtitle(&quot;Overall first-turn use by card&quot;)</code></pre>
+<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the preferred starting cards. Spy(2) being the most common and Wizard(5) being somewhat popular are the main notes here. Note that I’m listing the cards by number instead of their names as it’s easier to</p>
 <p>Now, let’s take a look at each card’s win rate.</p>
-<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>fullSet %&gt;% 
+  ggplot(aes(x=P1Card %&gt;% as_factor(), fill=Outcome)) +
+  geom_histogram(position=&quot;fill&quot;, stat=&quot;count&quot;) +
+  xlab(&quot;Card&quot;) +
+  ylab(&quot;Win Rate&quot;) +
+  ggtitle(&quot;Win rates by card&quot;)</code></pre>
+<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Other than the single instance in which Princess(1) was played, Spy(2) comes out on top as the only card above the 50% line, at a whopping 73% win rate. The Wizard(5) ended up nearly as well as the Assassin(3) and Ambassador(4), with a 40% win rate. This could spark interest in using them more often, but for the rest of this inquiry, because of their small sample size, all games where non-standard (2,3,4) cards were played will be excluded.</p>
-<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>fullSet %&gt;% 
+  filter(P1Card %in% c(2,3,4) &amp; P2Card %in% c(2,3,4)) %&gt;% 
+  mutate(P2Card=factor(P2Card, levels=c(&quot;4&quot;,&quot;3&quot;,&quot;2&quot;))) %&gt;% 
+  ggplot(aes(x=Outcome, fill=Outcome)) +
+  geom_bar(aes(stat=&quot;count&quot;)) +
+  facet_grid(vars(P2Card), vars(P1Card), switch=&quot;both&quot;) +
+  ylab(&quot;Opponent&#39;s Card&quot;) +
+  xlab(&quot;Your Card&quot;)+
+  theme(axis.text.x = element_blank()) +
+  ggtitle(&quot;Outcomes for each first turn matchup&quot;)</code></pre>
+<p><img src="/post/2020-08-22-brave-rats-first-turn-analysis/index.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>This last graph may be somewhat jarring, so I’ll explain how to read it. On the X is what card you picked, and on the Y is the card your opponent picked. At each intersection is a small plot, showing the history of wins and losses in games that started that way. Immediately apparent is one of the major reasons why the Spy(2) has been so successful. In games against Assassin(3), the Spy(2) player has won 6 out of 6 times. Also surprisingly, even in what seems to be an extremely favorable situation of playing Ambassador(4) against Spy(2), thereby gaining 2 victories, the Spy player has actually won 4 out of the 7 games.</p>
 <p>Further analysis such as a recommended distribution of cards to play based on matchup win rates would be possible but because Spy(2) has favorable matchups in every case, the current analysis of the first turn must end here.</p>
 <p>Of course, with sample sizes this small after dividing up every common matchup, nothing is proven. Assassin(3) obviously won’t win against Spy(2) 100% of the time, and it’s entirely likely that other matchups such as Ambassador(4) vs. Spy(2) are truly favorable to the Ambassador player. Nevertheless, I hope this can inform better strategies to test these conclusions in the field of battle.</p>
