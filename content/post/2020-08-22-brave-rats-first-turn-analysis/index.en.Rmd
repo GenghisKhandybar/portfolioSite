@@ -68,7 +68,7 @@ fullSet %>%
   ggtitle("Overall first-turn use by card")
 ```
 
-The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the preferred starting cards. Spy(2) being the most common and Wizard(5) being somewhat popular are the main notes here. Note that I'm listing the cards by number instead of their names as it's easier to 
+The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the preferred starting cards. Spy(2) being the most common and Wizard(5) being somewhat popular are the main notes here. Note that I'm listing the cards by number instead of their names as it's the clearest way to list them, avoiding confusion such as between Assassin and Ambassador.
 
 Now, let's take a look at each card's win rate.
 
