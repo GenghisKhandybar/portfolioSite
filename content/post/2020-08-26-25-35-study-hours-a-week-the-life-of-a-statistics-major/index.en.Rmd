@@ -28,7 +28,7 @@ Not all college slogans are the real inspirational type. Cal Poly happens to hav
 
 As a bit of a spreadsheet nerd, I've found myself in a great position to dive into this question and see if I've at least lived up to the slogan myself. Ever since my second year of high school, consistently recording my time spent on academics in a spreadsheet has been an integral part of my work flow. Each assignment is added as a new row once it's assigned, and I'll do my best to describe it and estimate how long it'll take to complete. This makes a living to-do list where I can punch in and out, recording the time in helper columns. Once the assignment is done and I've recorded every minute spent on it, it's filtered out of sight, clearing the list.
 
-Now, let's take a look at the raw data, as that's often the best way to understand what we're working with. This includes every assignment and class over my first year of college. Feel free to explore the data with the interactive table below, or just carry on for the analysis.
+Now, let's take a look at the most important parts of raw data, as that's often the best way to understand what we're working with. This includes every assignment and class over my first year of college. Feel free to explore the data with the interactive table below, or just carry on for the analysis.
 
 ```{r data}
 # Libraries 
@@ -56,17 +56,15 @@ study_time <- read.csv("collegeFirstYear.csv") %>%
                              labels=units)) %>% 
   filter(Class != "GameDevClub")
 
-widget <- DT::datatable(study_time, rownames = FALSE)
-widgetframe::frameWidget(widget)
+widget <- DT::datatable(study_time %>% select(Completed,Class,Title,Min_Estimated,Min_Real), rownames = FALSE)
+widgetframe::frameWidget(widget, width='100%', height = '100%')
+
 ```
 
-******
-
-The three columns Type, Tasks_Predicted, and Units are meant to read sort of like a sentence, with Title sometimes supplementing. For example, the first entry could be interpreted as "I read 14 pages of the Communist Manifesto." A fitting start to my college experience.
-
-The final two columns are for invalidating failures, wherein I didn't complete the task, and imprecise times, where the estimated or real times are approximately correct but not to the precise standards seen elsewhere.
+Next, we'll aggregate these tasks and see how much work there was on a weekly basis.
 
 ```{r}
+
 
 workloads <- study_time %>% 
   group_by(week_completed) %>% 
