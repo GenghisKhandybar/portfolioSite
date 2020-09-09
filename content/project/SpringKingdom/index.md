@@ -9,6 +9,10 @@ links:
   icon_pack: fab
   name: Live Rules
   url: https://docs.google.com/document/d/1qdIGxAQg8YnWHPBbuaDiF5A7Gd32Qr2Z5VwrSDjgEOo/edit?usp=sharing
+- icon: steam
+  icon_pack: fab
+  name: Play On Tabletop Simulator
+  url: https://steamcommunity.com/sharedfiles/filedetails/?id=2223886773
 summary: A quick strategy board game about re-uniting a broken kingdom. Each weapon will decisively beat one weapon and decisively lose to another.
 tags:
 - Board Games
@@ -35,4 +39,4 @@ This weapons triangle makes for a constantly shifting landscape where your soldi
 
 Finally, you can use prisoners you've taken to your advantage. Release 1 to play any card you want this turn, or release 4 of a kind to take another turn.
 
-That's pretty much the game! For the setup instructions, design history, and minor rules, see the Live Rules link at the top of the page. This game is still in development, so please contact me if you'd be interested in playtesting!
+That's pretty much the game! For further rules or to play on Tabletop Simulator, follow the links at the top. This game is still in development, so please contact me if you'd be interested in playtesting!
