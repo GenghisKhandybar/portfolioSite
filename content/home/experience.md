@@ -18,6 +18,28 @@ date_format = "Jan 2006"
 #   Leave `date_end` empty if it's your current employer.
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
+  title = "R Package Developer"
+  company = "Cal Poly Statistics Department"
+  company_url = "https://github.com/r-for-educators/flair/tree/master/R"
+  location = "California"
+  date_start = "2020-09-01"
+  date_end = ""
+  description = """
+  Developing the package Flair under a Cal Poly professor.
+  """
+
+[[experience]]
+  title = "Grader"
+  company = "Cal Poly Statistics Department"
+  company_url = ""
+  location = "California"
+  date_start = "2020-09-01"
+  date_end = ""
+  description = """
+  Grading R assignments for a STAT 218, a statistics course for biology majors.
+  """
+
+[[experience]]
   title = "Courtesy Clerk"
   company = "Safeway"
   company_url = ""
