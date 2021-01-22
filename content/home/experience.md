@@ -19,17 +19,6 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[experience]]
-  title = "R Package Developer"
-  company = "Cal Poly Statistics Department"
-  company_url = "https://github.com/r-for-educators/flair/tree/master/R"
-  location = "California"
-  date_start = "2020-09-01"
-  date_end = ""
-  description = """
-  Developing the package Flair under a Cal Poly professor.
-  """
-
-[[experience]]
   title = "Grader"
   company = "Cal Poly Statistics Department"
   company_url = ""
@@ -39,6 +28,18 @@ date_format = "Jan 2006"
   description = """
   Grading R assignments for a STAT 218, a statistics course for biology majors.
   """
+
+[[experience]]
+  title = "R Package Developer"
+  company = "Cal Poly Statistics Department"
+  company_url = "https://github.com/r-for-educators/flair/tree/master/R"
+  location = "California"
+  date_start = "2020-09-01"
+  date_end = "2020-12-01"
+  description = """
+  Developing the package Flair under a Cal Poly professor by writing onboarding documents.
+  """
+
 
 [[experience]]
   title = "Courtesy Clerk"
