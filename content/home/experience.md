@@ -18,13 +18,26 @@ date_format = "Jan 2006"
 #   Leave `date_end` empty if it's your current employer.
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
+
+[[experience]]
+  title = "Research assistant"
+  company = "Cal Poly Stats & Kinesiology Departments"
+  company_url = ""
+  location = "California"
+  date_start = "2020-06-01"
+  date_end = ""
+  description = """
+  With a Frost research grant, investigating the interactions between mothers and feeding babies using R.
+  """
+
+
 [[experience]]
   title = "Grader"
   company = "Cal Poly Statistics Department"
   company_url = ""
   location = "California"
   date_start = "2020-09-01"
-  date_end = ""
+  date_end = "2021-06-01"
   description = """
   Grading R assignments for a STAT 218, a statistics course for biology majors.
   """
