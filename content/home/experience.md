@@ -24,7 +24,7 @@ date_format = "Jan 2006"
   company = "Cal Poly Stats & Kinesiology Departments"
   company_url = ""
   location = "California"
-  date_start = "2020-06-01"
+  date_start = "2021-06-01"
   date_end = ""
   description = """
   With a Frost research grant, investigating the interactions between mothers and feeding babies using R.
