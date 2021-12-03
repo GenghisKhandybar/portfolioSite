@@ -49,7 +49,7 @@ units <- c(8,14,16,16,8)
 
 study_time <- read.csv("collegeFirstYear.csv") %>% 
   mutate(Completed = mdy(Completed))%>% 
-  mutate(Assignment = ifelse(Title != "", str_trunc(Title, 59), str_c(Type, Tasks_Predicted, Units, sep = " "))) %>% 
+  mutate(Assignment = ifelse(Title != "", str_trunc(Title, 45), str_c(Type, Tasks_Predicted, Units, sep = " "))) %>% 
   mutate(week_completed = Completed %>% floor_date(unit="week")) %>% 
   mutate(Quarter = factor(Quarter, levels = all_quarters)) %>% 
   mutate(quarter_units = factor(Quarter,
@@ -58,7 +58,7 @@ study_time <- read.csv("collegeFirstYear.csv") %>%
   rename(Minutes = Min_Real) %>% 
   filter(Class != "GameDevClub")
 
-widget <- DT::datatable(study_time %>% select(Completed,Class,Assignment,Minutes, Min_Estimated), rownames = FALSE)
+widget <- DT::datatable(study_time %>% select(Completed,Class,Assignment,Minutes), rownames = FALSE)
 widgetframe::frameWidget(widget, width='100%', height = '100%')
 
 ```
@@ -137,4 +137,4 @@ workloads_by_class %>%
 
 The chart shows only three classes below the two hour line, which match my memories of the less rigorous yet still valuable courses. Note that of the outlier groups may be exaggerated because a project done slowly over many days only counts on the week when it's completed, unless I've broken the project into multiple component tasks. 
 
-So, does Cal Poly require a full 25-35 hours a week of homework? Not for me at least. But then again, slogan wouldn't be very inspirational if were any less. Also, I'm fairly certain architecture majors exceed 35 hours by at least a factor of two anyway.
+So, does Cal Poly require a full 25-35 hours a week of homework? Not for me at least. But I suppose the slogan "study 10-20 hours a week, whatever you're feeling" would be far less inspiring. Also, I'm fairly certain architecture majors exceed 35 hours by at least a factor of two anyway.
