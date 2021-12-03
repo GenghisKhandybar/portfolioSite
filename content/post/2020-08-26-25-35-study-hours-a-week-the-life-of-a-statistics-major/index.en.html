@@ -1,0 +1,111 @@
+---
+title: 25-35 Study Hours a Week? the Life of a Statistics Major
+author: William Medwid
+date: '2020-08-26'
+slug: 25-35-study-hours-a-week-the-life-of-a-statistics-major
+categories:
+  - R
+tags:
+  - Academics
+  - Personally Collected Data
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-11-26T19:03:32-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/pymjs/pym.v1.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/widgetframe-binding/widgetframe.js"></script>
+
+
+<p>Not all college slogans are the real inspirational type. Cal Poly happens to have a funnily direct one: Study 25-35 hours per week. At first while touring the school, it seems to be everywhere from posters on the wall to pins and magnets given out at orientation. 2 hours per week per unit, outside lecture, sounds like it’d add up to a whole lot. So, I’ve got to ask, does it match up with what students actually do?</p>
+<p>As a bit of a spreadsheet nerd, I’ve found myself in a great position to dive into this question and see if I’ve lived up to the slogan myself. Ever since my second year of high school, consistently recording my time spent on academics in a spreadsheet has been an integral part of my work flow. Each assignment is added as a new row once it’s assigned, and I’ll do my best to describe it and estimate how long it’ll take to complete. This makes a dynamic to-do list where I can punch in and out, recording the time in helper columns. Once the assignment is done and I’ve recorded every minute spent on it, it’s filtered out of sight, clearing the list.</p>
+<p>Now, let’s take a look at the most important parts of raw data, as that’s often the best way to understand what we’re working with. This includes every assignment and class over my first year of college. Feel free to explore the data with the interactive table below.</p>
+<pre class="r"><code># Libraries 
+library(tidyverse)
+library(stringr)
+library(DT)
+library(lubridate)
+library(modelr)
+library(widgetframe)
+
+# Data
+# Note: This data is slightly pre-cleaned so only relevant columns and classes are there, and to avoid excess personal information.
+
+all_quarters &lt;- c(&quot;Summer 2019&quot;, &quot;Fall 2019&quot;, &quot;Winter 2020&quot;, &quot;Spring 2020&quot;, &quot;Summer 2020&quot;)
+online_quarters &lt;- c(&quot;Spring 2020&quot;, &quot;Summer 2020&quot;)
+units &lt;- c(8,14,16,16,8)
+#Best to define these here, they&#39;ll matter later.
+
+study_time &lt;- read.csv(&quot;collegeFirstYear.csv&quot;) %&gt;% 
+  mutate(Completed = mdy(Completed))%&gt;% 
+  mutate(Assignment = ifelse(Title != &quot;&quot;, str_trunc(Title, 59), str_c(Type, Tasks_Predicted, Units, sep = &quot; &quot;))) %&gt;% 
+  mutate(week_completed = Completed %&gt;% floor_date(unit=&quot;week&quot;)) %&gt;% 
+  mutate(Quarter = factor(Quarter, levels = all_quarters)) %&gt;% 
+  mutate(quarter_units = factor(Quarter,
+                             levels=all_quarters,
+                             labels=units)) %&gt;% 
+  rename(Minutes = Min_Real) %&gt;% 
+  filter(Class != &quot;GameDevClub&quot;)
+
+widget &lt;- DT::datatable(study_time %&gt;% select(Completed,Class,Assignment,Minutes, Min_Estimated), rownames = FALSE)
+widgetframe::frameWidget(widget, width=&#39;100%&#39;, height = &#39;100%&#39;)</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:100%;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"index.en_files/figure-html//widgets/widget_data.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<p>Next, we’ll aggregate these tasks and see how much work there was on a weekly basis.</p>
+<pre class="r"><code>workloads &lt;- study_time %&gt;% 
+  group_by(week_completed) %&gt;% 
+  filter(&quot;Class&quot; %in% Type | Quarter %in% online_quarters) %&gt;% #Only counting weeks where there were classes or the quarter was online.
+  summarize(week_workload = sum(Minutes, na.rm=TRUE)/60, Quarter=Quarter, quarter_units = quarter_units) %&gt;% 
+  ungroup() %&gt;% 
+  distinct(week_completed, .keep_all = TRUE)
+
+workloads %&gt;% 
+  ggplot(aes(x=week_completed, y=week_workload, color=Quarter)) +
+  geom_point() +
+  geom_smooth() +
+  xlab(&quot;Week&quot;) +
+  ylab(&quot;Hours of Academics Completed&quot;) +
+  ggtitle(&quot;Academic workload over time (including lectures)&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/first_chart-1.png" width="672" /></p>
+<pre class="r"><code>#Mean is the statistic of choice because large projects can take a long time and end up with work from one week being counted in another.
+conf_interval &lt;- t.test(workloads$week_workload, mu=25, alternative = &quot;less&quot;)
+
+class_time_total &lt;- study_time %&gt;% 
+  filter(Type==&quot;Class&quot;) %&gt;% pull(Minutes) %&gt;% sum(na.rm=TRUE)
+study_time_total &lt;- study_time %&gt;% 
+  filter(Type!=&quot;Class&quot;) %&gt;% pull(Minutes) %&gt;% sum(na.rm=TRUE)
+percent_in_class &lt;- (class_time_total / (class_time_total + study_time_total))*100 %&gt;% round(digits=1)</code></pre>
+<p>Alas, I’ve only spent a mean of 19.7 hours per week, a good ways from 25, let alone 35. And that’s with classes included, which are 29% of that time. Apart from the intensive 4-week 8-unit 2019 summer session, there’s very little case to be made that I ended up having a typical 25-35 hour week, other than to consider the time spent traveling between classes, which, though quite time consuming, which is not included in my data, but could hardly be called studying.</p>
+<pre class="r"><code>conf_interval_per_unit &lt;- t.test(workloads$week_workload/units, mu=2, alternative = &quot;less&quot;)</code></pre>
+<p>Another more charitable way to reconcile my schedule with the ideal would be to look at the per-unit time spent. It turns out that’s a more positive 1.7 hours, or the equivalent of 27.8 hours for a 16-unit schedule. This is still including classes but feels almost like victory nonetheless.</p>
+<p>Next, let’s see which classes were the ones that never required super rigorous homework?</p>
+<pre class="r"><code>workloads_by_class &lt;- study_time %&gt;% 
+  filter(Class != &quot;General&quot;) %&gt;% # Removing non class-specific academic imperatives
+  group_by(week_completed) %&gt;% 
+  filter(&quot;Class&quot; %in% Type | Quarter %in% online_quarters) %&gt;% #Only counting weeks where there were classes or the quarter was online.
+  ungroup() %&gt;% 
+  filter(Type != &quot;Class&quot;) %&gt;% 
+  group_by(Class,week_completed) %&gt;% 
+  summarize(week_workload = sum(Minutes, na.rm=TRUE)/60, Quarter=Quarter, quarter_units = quarter_units) %&gt;% 
+  ungroup() %&gt;% 
+  distinct(week_completed, Class, .keep_all = TRUE)
+
+workloads_by_class %&gt;% 
+  ggplot(aes(y=Class,x=week_workload)) +
+  geom_boxplot(fill=&quot;orangered&quot;) +
+  xlab(&quot;Weekly Workload (Excluding Classes)&quot;) +
+  facet_grid(rows= vars(Quarter), scales = &quot;free_y&quot;) +
+  geom_vline(xintercept =2, color=&quot;darkgreen&quot;, linetype = &quot;dashed&quot;)+
+  scale_x_continuous(breaks=c(0,1,2,5,10,15))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The chart shows only three classes below the two hour line, which match my memories of the less rigorous yet still valuable courses. Note that of the outlier groups may be exaggerated because a project done slowly over many days only counts on the week when it’s completed, unless I’ve broken the project into multiple component tasks.</p>
+<p>So, does Cal Poly require a full 25-35 hours a week of homework? Not for me at least. But then again, slogan wouldn’t be very inspirational if were any less. Also, I’m fairly certain architecture majors exceed 35 hours by at least a factor of two anyway.</p>
