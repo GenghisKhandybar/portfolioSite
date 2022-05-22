@@ -27,7 +27,7 @@ projects: []
 
 <div id="first-turn-analysis-based-on-human-data" class="section level2">
 <h2>First turn analysis based on human data</h2>
-<p>Welcome to an analysis of Brave Rats statistics, with real data collected from real players. <a href="https://boardgamegeek.com/boardgame/112373/braverats">Brave Rats</a> is a micro card game (also known as R) designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you’re not familiar with the game, I recommend this 5-minute <a href="https://www.youtube.com/watch?v=YDywt8eAGiU">video tutorial</a> to best be able to understand.</p>
+<p>Welcome to an analysis of Brave Rats statistics, with real data collected from real players. <a href="https://boardgamegeek.com/boardgame/112373/braverats">Brave Rats</a> is a micro card game designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you’re not familiar with the game, I recommend this 5-minute <a href="https://www.youtube.com/watch?v=YDywt8eAGiU">video tutorial</a> to best be able to understand.</p>
 <p>As of writing this commentary, I have recorded 62 games, mostly but not always with myself as one of the players. After removing two tied games, this gives a total of 120 opening moves to analyze. The first turn, as in many games, is very important yet very abstract and hard to make concrete statements about as it is so far removed from the end state of the game. This analysis will attempt to provide some data-driven guidance to this stage of play.</p>
 <pre class="r"><code># Importing the data and mirroring it
 
@@ -67,9 +67,10 @@ fullSet %&gt;%
   ggtitle(&quot;Frequency of use and win rate of each starting card&quot;) +
   scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7)) +
   scale_y_continuous(labels = scales::percent) +
-  ylab(&quot;Percent of games (n = 120)&quot;)</code></pre>
+  ylab(&quot;Percent of games (n = 120)&quot;) +
+  xlab(&quot;Card&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the frequent starting cards. With Spy(2) being played over 40% of the time, you’d think Assassin(4) would be very good, giving its user a 40% chance to start off with 2 points by beating the spy. We will explore this interaction in more depth later. Wizard(5) has the highest win rate currently, winning 4/7 times. This makes sense because it beats all 3 of the most common starters, so with some further gameplay we could quickly find it to be a viable starter.</p>
+<p>The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the frequent starting cards. With Spy(2) being played over 40% of the time, you’d think Ambassador(4) would be very good, giving its user a 40% chance to start off with 2 points by beating the spy. We will explore this interaction in more depth later. Wizard(5) has the highest win rate currently, winning 4/7 times. This makes sense because it beats all 3 of the most common starters, so with some further gameplay we could quickly find it to be a viable starter.</p>
 <p>While it’s easy to find the cards that are most likely to score a point on the first round, the further consequences of playing them can be counterintuitive. Since using one’s best cards will make it hard to win future rounds, our current strategies emphasize starting with some of the lowest cards. The table below shows the outcomes of each combination of the most common starters (other combinations had sample sizes too low for meaningful analysis).</p>
 <pre class="r"><code>fullSet %&gt;% 
   filter(P1Card %in% c(2,3,4) &amp; P2Card %in% c(2,3,4)) %&gt;% 

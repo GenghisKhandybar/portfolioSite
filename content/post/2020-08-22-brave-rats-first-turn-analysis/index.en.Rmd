@@ -24,7 +24,7 @@ projects: []
 
 ## First turn analysis based on human data
 
-Welcome to an analysis of Brave Rats statistics, with real data collected from real players. [Brave Rats](https://boardgamegeek.com/boardgame/112373/braverats) is a micro card game (also known as R) designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you're not familiar with the game, I recommend this 5-minute [video tutorial](https://www.youtube.com/watch?v=YDywt8eAGiU) to best be able to understand.
+Welcome to an analysis of Brave Rats statistics, with real data collected from real players. [Brave Rats](https://boardgamegeek.com/boardgame/112373/braverats) is a micro card game designed by Seiji Kanai. This is the first in a series of posts about this game, as I seek to use traditional AI, deep learning, and more data to delve deeper into the strategy of this seemingly simple simultaneous move war game. If you're not familiar with the game, I recommend this 5-minute [video tutorial](https://www.youtube.com/watch?v=YDywt8eAGiU) to best be able to understand.
 
 As of writing this commentary, I have recorded 62 games, mostly but not always with myself as one of the players. After removing two tied games, this gives a total of 120 opening moves to analyze. The first turn, as in many games, is very important yet very abstract and hard to make concrete statements about as it is so far removed from the end state of the game. This analysis will attempt to provide some data-driven guidance to this stage of play.
 
@@ -81,10 +81,11 @@ fullSet %>%
   ggtitle("Frequency of use and win rate of each starting card") +
   scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7)) +
   scale_y_continuous(labels = scales::percent) +
-  ylab("Percent of games (n = 120)")
+  ylab("Percent of games (n = 120)") +
+  xlab("Card")
 ```
 
-The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the frequent starting cards. With Spy(2) being played over 40% of the time, you'd think Assassin(4) would be very good, giving its user a 40% chance to start off with 2 points by beating the spy. We will explore this interaction in more depth later. Wizard(5) has the highest win rate currently, winning 4/7 times. This makes sense because it beats all 3 of the most common starters, so with some further gameplay we could quickly find it to be a viable starter.
+The clear trend is that only 3 cards, Spy(2), Assassin(3), and Ambassador(4) are by far the frequent starting cards. With Spy(2) being played over 40% of the time, you'd think Ambassador(4) would be very good, giving its user a 40% chance to start off with 2 points by beating the spy. We will explore this interaction in more depth later. Wizard(5) has the highest win rate currently, winning 4/7 times. This makes sense because it beats all 3 of the most common starters, so with some further gameplay we could quickly find it to be a viable starter.
 
 ```{r include=FALSE}
 # Tabulated statistics for analysis.
