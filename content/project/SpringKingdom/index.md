@@ -8,7 +8,7 @@ links:
 - icon: google-drive
   icon_pack: fab
   name: Live Rules
-  url: https://docs.google.com/document/d/1qdIGxAQg8YnWHPBbuaDiF5A7Gd32Qr2Z5VwrSDjgEOo/edit?usp=sharing
+  url: https://docs.google.com/document/d/1LOGjD71TAOg6eka8LJ0YQiMUDCNQFQuq7egxFahBkS0/edit?usp=sharing
 - icon: steam
   icon_pack: fab
   name: Play On Tabletop Simulator
